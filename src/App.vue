@@ -1,26 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>
+        <router-view @nextStep="handleNextStep" />
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    methods: {
+        handleNextStep(selectedYearMonth) {
+            console.log("Selected Year and Month in App.vue:", selectedYearMonth);
+            this.$router.push({ name: 'RosterStep2', params: { selectedYearMonth } });
+        },
+    },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/* TODO: 필요한 스타일 추가 */
 </style>
