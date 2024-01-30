@@ -118,7 +118,6 @@ export default {
             try {
                 // 선택된 직원을 필터링하고 직원 목록을 업데이트합니다.
                 const selectedEmployees = this.employeeList.filter(employee => employee.selected);
-                console.log('선택된 직원들:', selectedEmployees);
                 await axios.delete('http://localhost:8080/api/employees/delete', { data: selectedEmployees });
                 console.log('선택된 직원들이 성공적으로 삭제되었습니다:', selectedEmployees);
 

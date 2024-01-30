@@ -5,10 +5,16 @@ import RosterStep3 from '../view/RosterStep3.vue';
 import RosterStep4 from '../view/RosterStep4.vue';
 import RosterStep5 from '../view/RosterStep5.vue';
 import RosterStep6 from '../view/RosterStep6.vue';
+import HelloWorld from '../components/HelloWorld.vue';
 
 const routes = [
     {
         path: '/',
+        name: 'HelloWorld',
+        component: HelloWorld,
+    },
+    {
+        path: '/roster-step1',
         name: 'RosterStep1',
         component: RosterStep1,
     },
