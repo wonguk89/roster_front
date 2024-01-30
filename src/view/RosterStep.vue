@@ -6,7 +6,7 @@
                     <form id="msform">
                         <!-- progressbar -->
                         <ul id="progressbar">
-                            <li v-for="(step, index) in steps" :key="step.id" :class="{ active: index === currentStep }" :id="step.id">
+                            <li v-for="(step, index) in steps" :key="step.id" :class="{ active: index <= currentStep }" :id="step.id">
                                 <strong>{{ step.label }}</strong>
                             </li>
                         </ul>
@@ -156,7 +156,7 @@ p {
 
 #msform .action-button {
     width: 100px;
-    background: #673AB7;
+    background: #673AB7!Important;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -167,9 +167,8 @@ p {
     float: right
 }
 
-#msform .action-button:hover,
-#msform .action-button:focus {
-    background-color: #311B92
+#msform .action-button:hover{
+    background-color: #311B92!Important;
 }
 
 #msform .action-button-previous {
@@ -185,8 +184,7 @@ p {
     float: right
 }
 
-#msform .action-button-previous:hover,
-#msform .action-button-previous:focus {
+#msform .action-button-previous:hover{
     background-color: #000000
 }
 
@@ -274,7 +272,7 @@ p {
     border-radius: 50%;
     margin: 0 auto 10px auto;
     padding: 2px;
-    content: '\f030'; /* Font Awesome의 체크 아이콘 코드 */
+    content: '\f00c'; /* Font Awesome의 체크 아이콘 코드 */
     font-family: FontAwesome;
 }
 
@@ -299,7 +297,7 @@ p {
 }
 
 .progress-bar {
-    background-color: #673AB7
+    background-color: #673AB7 !Important;
 }
 
 .fit-image {
