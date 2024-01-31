@@ -1,12 +1,17 @@
 <template>
     <div>
-        <h1>Roster Step 6</h1>
+        <h2>Roster Step 6</h2>
         <p>Selected Year and Month: {{ yearMonth }}</p>
     </div>
 </template>
 
 <script>
 export default {
+    methods:{
+        moveToNextStep() {
+            this.$emit('moveToNextStep');
+        },
+    },
     computed: {
         yearMonth() {
             return this.$store.getters.getYearMonth;

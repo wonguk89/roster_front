@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <h1>Roster Step 1</h1>
-        <label for="year">년도:</label>
-        <select v-model="selectedYear">
+    <div class="text-center">
+        <select v-model="selectedYear" class="form-select mx-auto text-center" :class="{ 'is-invalid': showError && !selectedYear }" style="width: 250px; font-size: 15px;">
+            <option value="" disabled selected>스케줄 생성 년도와</option>
             <option v-for="year in yearOptions" :key="year" :value="year">{{ year }}</option>
         </select>
-        <br />
-        <label for="month">월:</label>
-        <select v-model="selectedMonth">
+        <div v-if="showError && !selectedYear" class="invalid-feedback" style="font-size: 12px;">년도를 선택해주세요.</div>
+
+        <br/>
+
+        <select v-model="selectedMonth" class="form-select mx-auto text-center" :class="{ 'is-invalid': showError && !selectedMonth }" style="width: 250px; font-size: 15px;">
+            <option value="" disabled selected>월을 선택해 주세요</option>
             <option v-for="month in monthOptions" :key="month" :value="month">{{ month }}</option>
         </select>
-        <br />
-        <button @click="moveToNextStep">다음</button>
+        <div v-if="showError && !selectedMonth" class="invalid-feedback" style="font-size: 12px;">월을 선택해주세요.</div>
+
     </div>
 </template>
 
@@ -19,8 +21,9 @@
 export default {
     data() {
         return {
-            selectedYear: new Date().getFullYear().toString(),
-            selectedMonth: (new Date().getMonth() + 1).toString().padStart(2, '0'),
+            selectedYear: '',
+            selectedMonth: '',
+            showError: false,
         };
     },
     computed: {
@@ -37,13 +40,25 @@ export default {
     },
     methods: {
         moveToNextStep() {
-            this.$store.dispatch('updateYearMonth', this.yearMonth);
-            this.$router.push({ name: 'RosterStep2' });
+            if (this.selectedYear && this.selectedMonth) {
+                this.$store.dispatch('updateYearMonth', this.yearMonth);
+                this.$emit('moveToNextStep');
+            } else {
+                this.showError = true;
+            }
         },
     },
 };
 </script>
 
 <style>
-/* TODO: 필요한 스타일 추가 */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    margin-top: 2px;
+    font-size: 12px;
+}
 </style>

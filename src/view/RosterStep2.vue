@@ -1,46 +1,53 @@
 <template>
     <div>
-        <h1>Roster Step 2</h1>
-
         <!-- Employee List Rendering -->
-        <table>
-            <thead>
-            <tr>
-                <th>선택</th>
-                <th>이름</th>
-                <th>직책</th>
-                <th>휴무갯수</th>
-                <th>수정</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(employee, index) in employeeList" :key="employee.employeeID">
-                <td>
-                    <input type="checkbox" v-model="employeeList[index].selected" />
-                </td>
-                <td>
-                    <input v-model="employeeList[index].name" type="text" @input="setModified(index)" />
-                </td>
-                <td>
-                    <input v-model="employeeList[index].position" type="text" @input="setModified(index)" />
-                </td>
-                <td>
-                    <input v-model="employeeList[index].holidayCnt" type="number" @input="setModified(index)" />
-                </td>
-                <td>
-                    <button v-if="employeeList[index].isModified" @click="saveEmployee(index)">저장</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <form id="preventForm" @submit.prevent="handleSubmit">
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 20%; padding-bottom: 20px">선택</th>
+                    <th style="width: 20%; padding-bottom: 20px">이름</th>
+                    <th style="width: 20%; padding-bottom: 20px">직책</th>
+                    <th style="width: 20%; padding-bottom: 20px">휴무갯수</th>
+                    <th style="width: 20%; padding-bottom: 20px">수정</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(employee, index) in employeeList" :key="employee.employeeID">
+                    <td>
+                        <input type="checkbox" v-model="employeeList[index].selected" />
+                    </td>
+                    <td>
+                        <input v-model="employeeList[index].name" type="text" @input="setModified(index)" />
+                    </td>
+                    <td>
+                        <input v-model="employeeList[index].position" type="text" @input="setModified(index)" />
+                    </td>
+                    <td>
+                        <input v-model="employeeList[index].holidayCnt" type="number" @input="setModified(index)" />
+                    </td>
+                    <td>
+                        <img v-if="employeeList[index].isModified" class="modified-image" src="../assets/checkIcon.jpg" alt="Modified Image" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-        <!-- Add Employee Button -->
-        <button @click="addEmptyEmployeeRow">직원 추가</button>
+            <!-- Add Employee Button -->
+            <input type="button" @click="addEmptyEmployeeRow" class="next select-button" value="직원추가" />
+            <!-- Remove Selected Employees Button -->
+            <input type="button" @click="removeSelectedEmployees" class="previous select-button-previous" value="선택삭제" />
+            <!-- Save All Modified Employees Button -->
+            <input v-if="hasModifiedEmployees" type="button" @click="saveAllModifiedEmployees" class="next select-button" value="저장" />
 
-        <!-- Remove Selected Employees Button -->
-        <button @click="removeSelectedEmployees">선택 직원 삭제</button>
 
-        <button @click="moveToNextStep">다음</button>
+            <!-- 수정 메시지 표시 -->
+            <div v-if="showSaveError" class="error-message">
+                {{ saveErrorMessage }}
+            </div>
+
+            <br />
+        </form>
     </div>
 </template>
 
@@ -51,7 +58,16 @@ export default {
     data() {
         return {
             employeeList: [], // 직원 목록
+            showSaveError: false,
         };
+    },
+    computed: {
+        saveErrorMessage() {
+            return '수정된 내용이 있습니다 저장버튼을 눌러주세요.';
+        },
+        hasModifiedEmployees() {
+            return this.employeeList.some(employee => employee.isModified);
+        },
     },
     mounted() {
         // 컴포넌트가 마운트될 때 직원 목록을 가져옵니다.
@@ -70,12 +86,10 @@ export default {
 
             if (modifiedEmployees.length > 0) {
                 // 아직 저장되지 않은 수정 사항이 있으면 에러 메시지를 표시하고 다음 단계로 이동을 막습니다.
-                alert('수정된 내용을 저장해주세요.');
+                this.showSaveError = true;
                 return;
             }
-
-            // 수정 사항이 없으면 다음 단계로 이동합니다.
-            this.$router.push({ name: 'RosterStep3' });
+            this.$emit('moveToNextStep');
         },
         async fetchEmployeeList() {
             try {
@@ -101,14 +115,14 @@ export default {
         async saveEmployee(index) {
             try {
                 const updatedEmployee = this.employeeList[index];
+                this.showSaveError = false;
                 await axios.post('http://localhost:8080/api/employees/addOrUpdate', [updatedEmployee]);
                 console.log('직원이 성공적으로 업데이트되었습니다:', updatedEmployee);
 
                 // 수정된 플래그를 초기화합니다.
                 this.employeeList[index].isModified = false;
-
                 // 저장 후 업데이트된 직원 목록을 가져옵니다.
-                await this.fetchEmployeeList();
+                //await this.fetchEmployeeList();
             } catch (error) {
                 console.error('직원을 업데이트하는 중 오류 발생:', error.message);
             }
@@ -126,11 +140,83 @@ export default {
             } catch (error) {
                 console.error('선택된 직원들을 삭제하는 중 오류 발생:', error.message);
             }
-        }
+        },
+
+        // 모든 수정된 직원을 저장합니다.
+        async saveAllModifiedEmployees() {
+            try {
+                // 수정된 직원만 필터링합니다.
+                const modifiedEmployees = this.employeeList.filter(employee => employee.isModified);
+
+                // API를 통해 모든 수정된 직원을 한 번에 업데이트합니다.
+                await axios.post('http://localhost:8080/api/employees/addOrUpdate', modifiedEmployees);
+                console.log('모든 수정된 직원이 성공적으로 업데이트되었습니다:', modifiedEmployees);
+
+                // 모든 수정된 플래그를 초기화합니다.
+                this.employeeList.forEach(employee => (employee.isModified = false));
+                await this.fetchEmployeeList();
+            } catch (error) {
+                console.error('직원을 업데이트하는 중 오류 발생:', error.message);
+            }
+        },
     },
 };
 </script>
 
 <style>
-/* Add necessary styles */
+#preventForm .select-button {
+    width: 85px;
+    background: #673AB7!Important;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 7px 5px;
+    margin: 10px 0px 10px 5px;
+    border-radius: 5px;
+}
+#preventForm .select-button:hover {
+    background-color: #311B92!Important;
+}
+#preventForm .save-button {
+    width: 85px;
+    background: #673AB7!Important;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 5px 3px;
+    margin: 0px 0px 20px 0px;
+    border-radius: 5px;
+}
+#preventForm .save-button:hover {
+    background-color: #311B92!Important;
+}
+#preventForm .select-button-previous {
+    width: 85px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 7px 5px;
+    margin: 10px 0px 10px 5px;
+    border-radius: 5px;
+}
+#preventForm .select-button-previous:hover {
+    background-color: #000000;
+}
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
+}
+#preventForm .modified-image {
+    max-width: 20px; /* 최대 가로 크기 설정 */
+    max-height: 20px; /* 최대 세로 크기 설정 */
+    margin: 0px 0px 20px 0px;
+}
 </style>

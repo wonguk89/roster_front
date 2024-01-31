@@ -20,9 +20,10 @@
                         <br>
                         <!-- fieldsets -->
                         <fieldset>
-                            <component :is="stepComponents[currentStep]"></component>
-                            <input type="button" @click="nextStep" class="next action-button" :value="currentStep < steps.length - 1 ? 'Next' : 'Submit'" />
-                            <input type="button" v-if="currentStep > 0" @click="previousStep" class="previous action-button-previous" value="Previous" />
+                            <!-- 상위 컴포넌트 템플릿 부분 -->
+                            <component :is="stepComponents[currentStep]" @moveToNextStep="moveToNextStep" :ref="steps[currentStep].id"></component>
+                            <input type="button" @click="nextStep" class="next action-button" :value="currentStep < steps.length - 1 ? '다음' : '생성'" />
+                            <input type="button" v-if="currentStep > 0" @click="previousStep" class="previous action-button-previous" value="이전" />
                         </fieldset>
                     </form>
                 </div>
@@ -68,10 +69,11 @@ export default {
     },
     methods: {
         nextStep() {
+                this.$refs[this.steps[this.currentStep].id].moveToNextStep();
+        },
+        moveToNextStep(){
             if (this.currentStep < this.steps.length - 1) {
-                this.currentStep++;
-            } else {
-                // Handle form submission or completion logic
+            this.currentStep++;            } else {
                 console.log('Form submitted or completed');
             }
         },
@@ -134,15 +136,16 @@ p {
     padding: 8px 15px 8px 15px;
     border: 1px solid #ccc;
     border-radius: 0px;
+    border-width: 0 0 1px;
     margin-bottom: 25px;
     margin-top: 2px;
-    width: 100%;
+    width: 90%;
     box-sizing: border-box;
     font-family: montserrat;
     color: #2C3E50;
-    background-color: #ECEFF1;
-    font-size: 16px;
-    letter-spacing: 1px
+    font-size: 13px;
+    letter-spacing: 1px;
+    //text-align: center;
 }
 
 #msform input:focus,
@@ -150,7 +153,8 @@ p {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #673AB7;
+    border: 2px solid #673AB7;
+    border-radius: 5px;
     outline-width: 0
 }
 
@@ -163,8 +167,9 @@ p {
     border-radius: 0px;
     cursor: pointer;
     padding: 10px 5px;
-    margin: 10px 0px 10px 5px;
-    float: right
+    margin: 10px 5px 10px 5px;
+    float: right;
+    border-radius: 5px;
 }
 
 #msform .action-button:hover{
@@ -181,7 +186,8 @@ p {
     cursor: pointer;
     padding: 10px 5px;
     margin: 10px 5px 10px 0px;
-    float: right
+    float: right;
+    border-radius: 5px;
 }
 
 #msform .action-button-previous:hover{

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h1>Roster Step 3</h1>
+        <h2>Roster Step 3</h2>
         <p>Content for Roster Step 3</p>
-        <button @click="moveToNextStep">Next</button>
+
     </div>
 </template>
 
@@ -10,7 +10,7 @@
 export default {
     methods: {
         moveToNextStep() {
-            this.$router.push({ name: 'RosterStep4' });
+            this.$emit('moveToNextStep');
         },
     },
 };
