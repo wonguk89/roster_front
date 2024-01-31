@@ -154,6 +154,7 @@ export default {
 
                 // 모든 수정된 플래그를 초기화합니다.
                 this.employeeList.forEach(employee => (employee.isModified = false));
+                this.showSaveError = false;
                 await this.fetchEmployeeList();
             } catch (error) {
                 console.error('직원을 업데이트하는 중 오류 발생:', error.message);
