@@ -1,19 +1,22 @@
 <template>
-    <div class="text-center">
-        <select v-model="selectedYear" class="form-select mx-auto text-center" :class="{ 'is-invalid': showError && !selectedYear }" style="width: 250px; font-size: 15px;">
-            <option value="" disabled selected>스케줄 생성 년도와</option>
-            <option v-for="year in yearOptions" :key="year" :value="year">{{ year }}</option>
-        </select>
-        <div v-if="showError && !selectedYear" class="invalid-feedback" style="font-size: 12px;">년도를 선택해주세요.</div>
+    <div>
+        <form id="formStep1">
+        <div style="margin-right: 10px; text-align: center;">
+            <select v-model="selectedYear" class="form-select" :class="{ 'is-invalid': showError && !selectedYear }" >
+                <option value="" disabled selected>스케쥴 생성 년도와</option>
+                <option v-for="year in yearOptions" :key="year" :value="year">{{ year }}</option>
+            </select>
+            <div v-if="showError && !selectedYear" class="invalid-feedback" style="font-size: 12px;">년도를 선택해주세요.</div>
+        </div>
 
-        <br/>
-
-        <select v-model="selectedMonth" class="form-select mx-auto text-center" :class="{ 'is-invalid': showError && !selectedMonth }" style="width: 250px; font-size: 15px;">
-            <option value="" disabled selected>월을 선택해 주세요</option>
-            <option v-for="month in monthOptions" :key="month" :value="month">{{ month }}</option>
-        </select>
-        <div v-if="showError && !selectedMonth" class="invalid-feedback" style="font-size: 12px;">월을 선택해주세요.</div>
-
+        <div style="text-align: center;">
+            <select v-model="selectedMonth" class="form-select" :class="{ 'is-invalid': showError && !selectedMonth }">
+                <option value="" disabled selected>월을 선택해 주세요</option>
+                <option v-for="month in monthOptions" :key="month" :value="month">{{ month }}</option>
+            </select>
+            <div v-if="showError && !selectedMonth" class="invalid-feedback" style="font-size: 12px;">월을 선택해주세요.</div>
+        </div>
+        </form>
     </div>
 </template>
 
@@ -52,13 +55,25 @@ export default {
 </script>
 
 <style>
-.is-invalid {
+
+#formStep1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#formStep1 select{
+    width: 210px;
+    font-size: 15px;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+#formStep1 .is-invalid {
     border-color: #dc3545 !important;
 }
-
-.invalid-feedback {
+#formStep1 .invalid-feedback{
     color: #dc3545;
-    margin-top: 2px;
+    margin-top: -50px;
     font-size: 12px;
 }
 </style>

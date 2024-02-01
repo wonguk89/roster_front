@@ -1,14 +1,14 @@
 <template>
     <div>
         <!-- Employee List Rendering -->
-        <form id="preventForm" @submit.prevent="handleSubmit">
+        <form id="formStep2">
             <table>
                 <thead>
                 <tr>
                     <th style="width: 20%; padding-bottom: 20px">선택</th>
                     <th style="width: 20%; padding-bottom: 20px">이름</th>
-                    <th style="width: 20%; padding-bottom: 20px">직책</th>
-                    <th style="width: 20%; padding-bottom: 20px">휴무갯수</th>
+                    <th style="width: 25%; padding-bottom: 20px">직책</th>
+                    <th style="width: 15%; padding-bottom: 20px">휴무갯수</th>
                     <th style="width: 20%; padding-bottom: 20px">수정</th>
                 </tr>
                 </thead>
@@ -50,7 +50,6 @@
         </form>
     </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -63,7 +62,7 @@ export default {
     },
     computed: {
         saveErrorMessage() {
-            return '수정된 내용이 있습니다 저장버튼을 눌러주세요.';
+            return '저장되지 않은 변경 사항이 있습니다. 먼저 변경 사항을 저장하세요.';
         },
         hasModifiedEmployees() {
             return this.employeeList.some(employee => employee.isModified);
@@ -76,7 +75,12 @@ export default {
     methods: {
         // 수정 여부를 표시합니다.
         setModified(index) {
-            this.employeeList[index].isModified = true;
+            const currentEmployee = this.employeeList[index];
+            currentEmployee.isModified = (
+                currentEmployee.name !== currentEmployee.originalName ||
+                currentEmployee.position !== currentEmployee.originalPosition ||
+                currentEmployee.holidayCnt !== currentEmployee.originalHolidayCnt
+            );
         },
 
         // 다음 단계로 이동합니다.
@@ -98,11 +102,15 @@ export default {
                 this.employeeList = response.data.map(employee => ({
                     ...employee,
                     isModified: false, // 직원 데이터가 수정되었는지 여부를 추적하는 플래그
+                    originalName: employee.name, // 원래 이름 저장
+                    originalPosition: employee.position, // 원래 직책 저장
+                    originalHolidayCnt: employee.holidayCnt, // 원래 휴무 갯수 저장
                 }));
             } catch (error) {
                 console.error('직원 목록을 가져오는 중 오류 발생:', error.message);
             }
         },
+
         // 빈 직원 행을 추가합니다.
         addEmptyEmployeeRow() {
             this.employeeList.push({
@@ -111,21 +119,6 @@ export default {
                 holidayCnt: 0,
                 isModified: true, // 새로운 행이므로 플래그를 true로 설정합니다.
             });
-        },
-        async saveEmployee(index) {
-            try {
-                const updatedEmployee = this.employeeList[index];
-                this.showSaveError = false;
-                await axios.post('http://localhost:8080/api/employees/addOrUpdate', [updatedEmployee]);
-                console.log('직원이 성공적으로 업데이트되었습니다:', updatedEmployee);
-
-                // 수정된 플래그를 초기화합니다.
-                this.employeeList[index].isModified = false;
-                // 저장 후 업데이트된 직원 목록을 가져옵니다.
-                //await this.fetchEmployeeList();
-            } catch (error) {
-                console.error('직원을 업데이트하는 중 오류 발생:', error.message);
-            }
         },
 
         async removeSelectedEmployees() {
@@ -164,8 +157,9 @@ export default {
 };
 </script>
 
+
 <style>
-#preventForm .select-button {
+#formStep2 .select-button {
     width: 85px;
     background: #673AB7!Important;
     font-weight: bold;
@@ -177,25 +171,10 @@ export default {
     margin: 10px 0px 10px 5px;
     border-radius: 5px;
 }
-#preventForm .select-button:hover {
+#formStep2 .select-button:hover {
     background-color: #311B92!Important;
 }
-#preventForm .save-button {
-    width: 85px;
-    background: #673AB7!Important;
-    font-weight: bold;
-    color: white;
-    border: 0 none;
-    border-radius: 0px;
-    cursor: pointer;
-    padding: 5px 3px;
-    margin: 0px 0px 20px 0px;
-    border-radius: 5px;
-}
-#preventForm .save-button:hover {
-    background-color: #311B92!Important;
-}
-#preventForm .select-button-previous {
+#formStep2 .select-button-previous {
     width: 85px;
     background: #616161;
     font-weight: bold;
@@ -207,7 +186,7 @@ export default {
     margin: 10px 0px 10px 5px;
     border-radius: 5px;
 }
-#preventForm .select-button-previous:hover {
+#formStep2 .select-button-previous:hover {
     background-color: #000000;
 }
 .error-message {
@@ -215,9 +194,25 @@ export default {
     margin-top: 5px;
     font-size: 12px;
 }
-#preventForm .modified-image {
+#formStep2 .modified-image {
     max-width: 20px; /* 최대 가로 크기 설정 */
     max-height: 20px; /* 최대 세로 크기 설정 */
-    margin: 0px 0px 20px 0px;
+    margin: 0px 0px 5px 0px;
+}
+
+#formStep2 input,
+#formStep2 textarea {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    border-width: 0 0 0 0px;
+    margin-bottom: 5px;
+    width: 90%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-align: center;
 }
 </style>

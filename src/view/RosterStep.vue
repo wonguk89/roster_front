@@ -131,22 +131,7 @@ p {
     display: none
 }
 
-#msform input,
-#msform textarea {
-    padding: 8px 15px 8px 15px;
-    border: 1px solid #ccc;
-    border-radius: 0px;
-    border-width: 0 0 1px;
-    margin-bottom: 25px;
-    margin-top: 2px;
-    width: 90%;
-    box-sizing: border-box;
-    font-family: montserrat;
-    color: #2C3E50;
-    font-size: 13px;
-    letter-spacing: 1px;
-    //text-align: center;
-}
+
 
 #msform input:focus,
 #msform textarea:focus {

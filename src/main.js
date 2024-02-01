@@ -14,7 +14,6 @@ const app = createApp(App);
 // 반환된 { bootstrap } 객체를 사용하여 BootstrapVue를 앱에 추가
 const { bootstrap } = createBootstrap();
 app.use(bootstrap);
-
 // 라우터 및 스토어를 Vue 앱에 추가
 app.use(router);
 app.use(store);
