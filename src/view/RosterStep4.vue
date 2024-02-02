@@ -2,6 +2,7 @@
     <div>
         <form id="formStep4">
             <p>사업장 휴무일을 추가해주세요</p>
+            <p>{{yearMonth}}</p>
             <label>
                 <!-- Vue Datepicker -->
                 <VueDatePicker
@@ -14,7 +15,6 @@
                     placeholder="      날짜를 선택해주세요"
                     auto-apply
                     multi-dates
-                    :text-input="textInputOptions"
                     @update:model-value="handleDate"
                     no-today
                 ></VueDatePicker>
@@ -92,13 +92,31 @@ export default {
             saveErrorMessage: '',
             delList: [],
             date : null,
+            dateForUse : null,
         };
     },
     methods: {
         handleDate(modelData) {
-            const lastDate = modelData.slice(-1)[0];
-            date.value = lastDate;
-            this.selectedDates2 = [lastDate];
+            date.value = modelData;
+            // modelData가 존재하고, 현재 선택된 날짜와 modelData의 마지막 날짜가 같지 않다면 선택하기
+            if (modelData && modelData.length > 0) {
+                const lastDate = modelData[modelData.length - 1];
+
+                // 사용자가 선택한 날짜가 초기 날짜와 다르며, 아직 선택되지 않은 경우에만 추가
+                if (lastDate !== this.date[0]) {
+                    // 시용자가 다른날짜를 추가하다가 초기날짜를 선택했을경우
+                    if (new Date(modelData[modelData.length - 1]).getTime() === new Date(this.selectedDates2[this.selectedDates2.length - 1]).getTime()) {
+                        this.selectedDates2.push(this.dateForUse[0]);
+                        this.date[0] = [this.dateForUse[0]];
+                    } else {
+                    this.selectedDates2.push(lastDate);
+                    }
+                }
+            } else {
+                // modelData가 비어있을 때 초기 날짜를 선택된 값으로 설정
+                this.date = [this.dateForUse[0]];
+                this.selectedDates2.push(this.date[0]);
+            }
         },
         moveToNextStep() {
             // descriptionModified가 true이면 빨간 에러 문구를 보여주고 리턴
@@ -265,7 +283,8 @@ export default {
     },
     created() {
         // 여기서 초기 날짜를 설정할 수 있습니다.
-        this.date = [new Date(this.yearMonth + '-01')];
+        this.date = [new Date(this.yearMonth+"-01")];
+        this.dateForUse = [new Date(this.yearMonth+"-01")];
 
     },
     mounted() {
