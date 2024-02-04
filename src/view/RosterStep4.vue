@@ -172,6 +172,7 @@ export default {
                     `http://localhost:8080/api/holiday/getByMonth?date=${this.yearMonth}`
                 );
                 this.selectedDates = response.data;
+                this.originDates = response.data;
                 // 만약 response.data가 배열이라면
                 if (Array.isArray(response.data)) {
                     // 각 요소에 대해 saveHighlightedDates 호출
@@ -196,7 +197,7 @@ export default {
                 console.log("this.holidayIDsToAdd : " + holidayIDsToAdd);
 
                 const deleteResponse = await axios.delete(`http://localhost:8080/api/holiday/delete?holidayID=${holidayIDsToAdd}`);
-                console.log('삭제된 휴무일:', deleteResponse.data);
+                console.log(deleteResponse.data+ holidayIDsToAdd);
 
 
                 // API를 통해 모든 수정된 휴무일을 한 번에 업데이트합니다.

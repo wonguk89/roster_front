@@ -41,6 +41,7 @@ export default {
             shchedulDataForSave:[],
             skillData:[],
             nameData:[],
+            count:0,
         };
     },
     mounted() {
@@ -65,6 +66,41 @@ export default {
 
             } catch (error) {
                 console.error('Error generating schedule:', error.response.data);
+                if (this.count < 30) {
+                    // Retry
+                    this.count++;
+                    console.log(this.count + '만큼시도 하는중 꿍찠');
+                    await this.generateRandomSchedule2();
+                } else {
+                    // Handle failure after retry limit
+                    alert(this.count + '만큼시도했는데 안되네 데헷 뒤로 돌아갓');
+                    this.count = 0;
+                }
+            }
+        },
+        async generateRandomSchedule2() {
+            try {
+                const response = await axios.get('http://localhost:8080/api/random/generate', {
+                    params: {
+                        selectedMonth: this.yearMonth,
+                    },
+                });
+                this.shchedulDataForSave = response.data;
+                this.shchedulData = response.data;
+                await this.fetchAndReplaceSkills();
+
+            } catch (error) {
+                console.error('Error generating schedule:', error.response.data);
+                if (this.count < 30) {
+                    // Retry
+                    this.count++;
+                    console.log(this.count + '만큼시도 하는중 꿍찠');
+                    await this.generateRandomSchedule();
+                } else {
+                    // Handle failure after retry limit
+                    alert(this.count + '만큼시도했는데 안되네 데헷 뒤로 돌아갓');
+                    this.count = 0;
+                }
             }
         },
         async fetchAndReplaceSkills() {
