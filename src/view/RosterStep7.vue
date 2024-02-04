@@ -1,5 +1,6 @@
 <template>
     <div class="calendar-container">
+        <input type="button" @click="ButtonAction" class="back-action-button" value="뒤로" />
         <h6>{{ yearMonth.split('-')[0] }}</h6><h4>{{ parseInt(yearMonth.split('-')[1]) }}</h4>
         <div class="calendar">
             <div class="weekdays">
@@ -26,7 +27,6 @@
     </div>
 </template>
 
-
 <script>
 import axios from 'axios';
 import router from "@/router";
@@ -36,7 +36,6 @@ export default {
             days: [],
             eventData: [],
             shchedulData:[],
-            shchedulDataForSave:[],
             skillData:[],
             nameData:[],
         };
@@ -52,12 +51,9 @@ export default {
     methods: {
         async generateRandomSchedule() {
             try {
-                const response = await axios.get('http://localhost:8080/api/random/generate', {
-                    params: {
-                        selectedMonth: this.yearMonth,
-                    },
-                });
-                this.shchedulDataForSave = response.data;
+                const response = await axios.get(
+                    `http://localhost:8080/api/calendarSchedule/getByMonth?date=${this.yearMonth}`
+                );
                 this.shchedulData = response.data;
                 await this.fetchAndReplaceSkills();
 
@@ -132,49 +128,28 @@ export default {
             const formattedDate = `${this.yearMonth}-${day.toString().padStart(2, '0')}`;
             return this.eventData.filter(data => data.date === formattedDate);
         },
-        async moveToNextStep() {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8080/api/calendarSchedule/getByMonth?date=${this.yearMonth}`
-                );
-
-                if (response.data.length > 0) {
-                    // 데이터가 있을 때 컨펌 창을 띄워 유저에게 물어봄
-                    const confirmResponse = confirm('이미 저장된 스케쥴이 있습니다. 변경하시겠습니까?');
-
-                    if (confirmResponse) {
-                        // Yes를 선택한 경우 데이터 삭제 후 새로운 데이터 생성
-                        await axios.delete(
-                            `http://localhost:8080/api/calendarSchedule/delete?date=${this.yearMonth}`
-                        );
-
-                        await axios.post('http://localhost:8080/api/calendarSchedule/create', this.shchedulDataForSave);
-                        console.log('스케쥴 정보를 저장하였습니다.');
-                        router.go(0);
-                    }
-                } else {
-                    // 데이터가 없을 때 새로운 데이터 생성
-                    await axios.post('http://localhost:8080/api/calendarSchedule/create', this.shchedulDataForSave);
-                    console.log('스케쥴 정보를 저장하였습니다.');
-                    router.go(0);
-                }
-            } catch (error) {
-                console.error('스케쥴 정보 저장 중 오류 발생:', error.message);
-            }
-        },
+        ButtonAction(){
+            router.push({ name: 'HelloWorld' });
+        }
     },
 };
 </script>
 
 <style scoped>
-
+h6{
+    text-align: center;
+}
+h4{
+    text-align: center;
+}
 .calendar-container {
     position: relative;
 }
 
 .calendar {
     position: relative;
-    max-width: 1500px;
+    max-width: 1000px;
+    margin-left: 270px;
 }
 .weekdays {
     display: grid;
@@ -285,6 +260,17 @@ export default {
 .event{
     margin-bottom: 1px;
 }
-
+.back-action-button {
+    width: 100px;
+    background: #C09247;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 250px 10px -350px;
+    float: right; /* 왼쪽으로 위치시키기 */
+    border-radius: 5px;
+}
 </style>
-

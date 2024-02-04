@@ -1,26 +1,6 @@
 <template>
     <div>
         <form id="formStep4">
-            <p>사업장 휴무일을 추가해주세요</p>
-            <p>{{yearMonth}}</p>
-            <label>
-                <!-- Vue Datepicker -->
-                <VueDatePicker
-                    v-model="date"
-                    :highlight="highlightedDates"
-                    :disabled-dates="highlightedDates"
-                    disable-month-year-select
-                    highlight-disabled-days
-                    :format="format"
-                    placeholder="      날짜를 선택해주세요"
-                    auto-apply
-                    multi-dates
-                    @update:model-value="handleDate"
-                    no-today
-                ></VueDatePicker>
-
-
-            </label>
             <table
                 v-if="formattedDates"
                 style="width: 100%; margin-top: 30px; margin-bottom: 30px;"
@@ -45,7 +25,7 @@
                     </td>
                     <td @click="removeDate(index)">
                         <img
-                            src="../assets/delIcon2.png"
+                            src="../assets/purpleDel2.png"
                             class="del-icon"
                             alt="Delete Icon"
                         />
@@ -54,6 +34,26 @@
                 </tbody>
             </table>
 
+                <p>{{formattedYearMonth}} 휴무일을 추가해주세요</p>
+            <label>
+
+                <!-- Vue Datepicker -->
+                <VueDatePicker
+                    v-model="date"
+                    :highlight="highlightedDates"
+                    :disabled-dates="highlightedDates"
+                    disable-month-year-select
+                    highlight-disabled-days
+                    :format="format"
+                    placeholder="      날짜를 선택해주세요"
+                    auto-apply
+                    multi-dates
+                    @update:model-value="handleDate"
+                    no-today
+                    :clearable="false"
+                ></VueDatePicker>
+
+            </label>
             <input
                 v-if="descriptionModified"
                 type="button"
@@ -101,9 +101,8 @@ export default {
             // modelData가 존재하고, 현재 선택된 날짜와 modelData의 마지막 날짜가 같지 않다면 선택하기
             if (modelData && modelData.length > 0) {
                 const lastDate = modelData[modelData.length - 1];
-
                 // 사용자가 선택한 날짜가 초기 날짜와 다르며, 아직 선택되지 않은 경우에만 추가
-                if (lastDate !== this.date[0]) {
+                if (new Date(lastDate).getTime() !== new Date(this.date[0]).getTime()) {
                     // 시용자가 다른날짜를 추가하다가 초기날짜를 선택했을경우
                     if (new Date(modelData[modelData.length - 1]).getTime() === new Date(this.selectedDates2[this.selectedDates2.length - 1]).getTime()) {
                         this.selectedDates2.push(this.dateForUse[0]);
@@ -117,6 +116,16 @@ export default {
                 this.date = [this.dateForUse[0]];
                 this.selectedDates2.push(this.date[0]);
             }
+        },
+        formatYearMonth(rawYearMonth) {
+            // 날짜 객체로 변환
+            const dateObj = new Date(rawYearMonth);
+
+            // 월에 +1을 해주어야 정확한 월이 나옴 (0부터 시작)
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const year = dateObj.getFullYear().toString();
+
+            this.formattedYearMonth = year + '년' + month + '월';
         },
         moveToNextStep() {
             // descriptionModified가 true이면 빨간 에러 문구를 보여주고 리턴
@@ -251,6 +260,14 @@ export default {
             // Vuex 스토어에서 yearMonth 값 가져오기
             return this.$store.getters.getYearMonth;
         },
+        formattedYearMonth() {
+            // Format year and month based on this.yearMonth
+            const dateObj = new Date(this.yearMonth);
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const year = dateObj.getFullYear().toString();
+
+            return year + '년 ' + month + '월';
+        },
         formattedDates() {
             // selectedDates를 가공하여 반환
             const formattedFromDB = this.selectedDates ? this.selectedDates.map(date => {
@@ -319,9 +336,9 @@ export default {
 #formStep4 td input,
 #formStep4 textarea {
     padding: 8px 15px 8px 15px;
-    border: 1px solid #ccc;
+    border: 2px solid #673AB7;
     border-radius: 0px;
-    border-width: 0 0 0 0px;
+    border-width: 0 0 2px 0;
     margin-bottom: 5px;
     width: 90%;
     box-sizing: border-box;

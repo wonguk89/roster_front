@@ -198,14 +198,15 @@ export default {
     max-width: 20px; /* 최대 가로 크기 설정 */
     max-height: 20px; /* 최대 세로 크기 설정 */
     margin: 0px 0px 5px 0px;
+    cursor: pointer;
 }
 
 #formStep2 input,
 #formStep2 textarea {
     padding: 8px 15px 8px 15px;
-    border: 1px solid #ccc;
+    border: 2px solid #673AB7;
     border-radius: 0px;
-    border-width: 0 0 0 0px;
+    border-width: 0 0 2px 0;
     margin-bottom: 5px;
     width: 90%;
     box-sizing: border-box;
@@ -214,5 +215,10 @@ export default {
     font-size: 15px;
     letter-spacing: 1px;
     text-align: center;
+}
+#formStep2 input::-webkit-inner-spin-button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
 }
 </style>

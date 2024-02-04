@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+            <div :class="currentStep !== 5 ? 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-5 text-center p-0 mt-3 mb-2' : 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-11 text-center p-0 mt-3 mb-2'">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                     <form id="msform">
                         <!-- progressbar -->
@@ -22,7 +22,7 @@
                         <fieldset>
                             <!-- 상위 컴포넌트 템플릿 부분 -->
                             <component :is="stepComponents[currentStep]" @moveToNextStep="moveToNextStep" :ref="steps[currentStep].id"></component>
-                            <input type="button" @click="nextStep" class="next action-button" :value="currentStep < steps.length - 1 ? '다음' : '생성'" />
+                            <input type="button" @click="nextStep" class="next action-button" :value="currentStep < steps.length - 2 ? '다음' : currentStep < steps.length - 1 ? '생성' : '저장'" />
                             <input type="button" v-if="currentStep > 0" @click="previousStep" class="previous action-button-previous" value="이전" />
                         </fieldset>
                     </form>
@@ -50,7 +50,7 @@ export default {
                 { id: "step3", label: "Step 3" },
                 { id: "step4", label: "Step 4" },
                 { id: "step5", label: "Step 5" },
-                { id: "step6", label: "Step 6" }
+                { id: "step6", label: "Step 6" },
             ],
             stepComponents: [
                 RosterStep1,
@@ -58,7 +58,7 @@ export default {
                 RosterStep3,
                 RosterStep4,
                 RosterStep5,
-                RosterStep6
+                RosterStep6,
             ]
         };
     },
@@ -89,7 +89,8 @@ export default {
 <style>
 * {
     margin: 0;
-    padding: 0
+    padding: 0;
+    font-family: FontAwesome;
 }
 
 html {
@@ -130,8 +131,6 @@ p {
 #msform fieldset:not(:first-of-type) {
     display: none
 }
-
-
 
 #msform input:focus,
 #msform textarea:focus {
@@ -178,37 +177,10 @@ p {
 #msform .action-button-previous:hover{
     background-color: #000000
 }
-
 .card {
     z-index: 0;
     border: none;
     position: relative
-}
-
-.fs-title {
-    font-size: 25px;
-    color: #673AB7;
-    margin-bottom: 15px;
-    font-weight: normal;
-    text-align: left
-}
-
-.purple-text {
-    color: #673AB7;
-    font-weight: normal
-}
-
-.steps {
-    font-size: 25px;
-    color: gray;
-    margin-bottom: 10px;
-    font-weight: normal;
-    text-align: right
-}
-
-.fieldlabels {
-    color: gray;
-    text-align: left
 }
 
 #progressbar {
@@ -229,27 +201,6 @@ p {
     position: relative;
     font-weight: 400;
     text-align: center; /* 가운데 정렬을 위해 추가 */
-}
-
-
-#progressbar #account:before {
-    font-family: FontAwesome;
-    content: "\f13e"
-}
-
-#progressbar #personal:before {
-    font-family: FontAwesome;
-    content: "\f007"
-}
-
-#progressbar #payment:before {
-    font-family: FontAwesome;
-    content: "\f030"
-}
-
-#progressbar #confirm:before {
-    font-family: FontAwesome;
-    content: "\f00c"
 }
 
 #progressbar li:before {
@@ -291,8 +242,4 @@ p {
     background-color: #673AB7 !Important;
 }
 
-.fit-image {
-    width: 100%;
-    object-fit: cover
-}
 </style>

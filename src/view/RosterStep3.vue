@@ -194,9 +194,9 @@ export default {
 }
 
 #formStep3 .modified-image {
-    max-width: 20px;
-    max-height: 20px;
-    margin: 0px 0px 0px 0px;
+    max-width: 30px;
+    max-height: 30px;
+    margin: 0px 0px 5px 0px;
 }
 
 #formStep3 .error-message {
@@ -205,10 +205,10 @@ export default {
     font-size: 12px;
 }
 #formStep3 input[type="checkbox"] {
-    accent-color: #616161;
+    accent-color: #673AB7;
 }
 #formStep3 input[type="checkbox"]:hover {
-    accent-color: #000000;
+    accent-color: #616161;
 }
 
 #formStep3 input,

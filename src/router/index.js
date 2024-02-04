@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // import RosterStep5 from '../view/RosterStep5.vue';
 // import RosterStep6 from '../view/RosterStep6.vue';
 import HelloWorld from '../components/HelloWorld.vue';
+import RosterStep7 from "../view/RosterStep7.vue";
 
 const routes = [
     {
@@ -13,6 +14,11 @@ const routes = [
         name: 'HelloWorld',
         component: HelloWorld,
     },
+    {
+        path: '/roster-step-7',
+        name: 'RosterStep7',
+        component: RosterStep7,
+    }
     // {
     //     path: '/roster-step1',
     //     name: 'RosterStep1',
