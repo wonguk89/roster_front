@@ -59,7 +59,7 @@
                         <td>{{ leaveRequest.reason }}</td>
                         <td @click="confirmDelete(index)">
                             <img
-                            src="../assets/purpleDel2.png"
+                            src="../assets/brownDel.jpg"
                             class="del-icon"
                             alt="Delete Icon"
                         /></td>
@@ -201,7 +201,7 @@ export default {
 #formStep5 input,
 #formStep5 textarea {
     padding: 8px 15px 8px 15px;
-    border: 2px solid #673AB7;
+    border: 2px solid #CAB387;
     border-radius: 0px;
     border-width: 0 0 2px 0;
     margin-bottom: 5px;
@@ -215,11 +215,11 @@ export default {
 }
 #formStep5 .form-select{
     padding: 8px 15px 8px 15px;
-    border: 2px solid #673AB7;
+    border: 2px solid #CAB387;
     border-radius: 0px;
     border-width: 0 0 2px 0;
     margin-bottom: 5px;
-    width: 200px;
+    width: 130px;
     box-sizing: border-box;
     font-family: montserrat;
     color: #2C3E50;
@@ -231,7 +231,7 @@ export default {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 2px solid #673AB7;
+    border: 2px solid #C09247;
     border-radius: 5px;
     outline-width: 0
 }
@@ -241,14 +241,14 @@ export default {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 2px solid #673AB7;
+    border: 2px solid #C09247;
     border-radius: 5px;
     outline-width: 0
 }
 
 #formStep5 .action-button {
     width: 50px!important;
-    background: #673AB7!Important;
+    background: #CAB387!Important;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -262,7 +262,7 @@ export default {
 }
 
 #formStep5 .action-button:hover{
-    background-color: #311B92!Important;
+    background-color: #C09247!Important;
 }
 #formStep5 input[type="date"] {
     position: relative;
@@ -306,7 +306,7 @@ export default {
     width: 5px;
 }
 #formStep5 .table-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(transparent, #673AB7);
+    background: linear-gradient(transparent, #C09247);
     border-radius: 10px;
 }
 #formStep5 .table-container::-webkit-scrollbar-thumb:hover {

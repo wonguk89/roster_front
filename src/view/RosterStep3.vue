@@ -26,7 +26,7 @@
                         <img
                             v-if="isEmployeeModified(employeeIndex)"
                             class="modified-image"
-                            src="../assets/checkIcon.jpg"
+                            src="../assets/brownCheck2.jpg"
                             alt="Modified Image"
                         />
                     </td>
@@ -179,7 +179,7 @@ export default {
 <style>
 #formStep3 .select-button {
     width: 85px;
-    background: #673AB7!Important;
+    background: #CAB387!Important;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -190,12 +190,12 @@ export default {
     border-radius: 5px;
 }
 #formStep3 .select-button:hover {
-    background-color: #311B92!Important;
+    background-color: #C09247!Important;
 }
 
 #formStep3 .modified-image {
-    max-width: 30px;
-    max-height: 30px;
+    max-width: 20px;
+    max-height: 20px;
     margin: 0px 0px 5px 0px;
 }
 
@@ -205,10 +205,10 @@ export default {
     font-size: 12px;
 }
 #formStep3 input[type="checkbox"] {
-    accent-color: #673AB7;
+    accent-color: #CAB387;
 }
 #formStep3 input[type="checkbox"]:hover {
-    accent-color: #616161;
+    accent-color: #C09247;
 }
 
 #formStep3 input,

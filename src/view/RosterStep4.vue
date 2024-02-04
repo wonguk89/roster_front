@@ -25,7 +25,7 @@
                     </td>
                     <td @click="removeDate(index)">
                         <img
-                            src="../assets/purpleDel2.png"
+                            src="../assets/brownDel.jpg"
                             class="del-icon"
                             alt="Delete Icon"
                         />
@@ -319,7 +319,7 @@ export default {
 }
 #formStep4 .select-button {
     width: 85px;
-    background: #673AB7 !important;
+    background: #CAB387 !important;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -330,13 +330,13 @@ export default {
     border-radius: 5px;
 }
 #formStep4 .select-button:hover {
-    background-color: #311B92 !important;
+    background-color: #C09247 !important;
 }
 
 #formStep4 td input,
 #formStep4 textarea {
     padding: 8px 15px 8px 15px;
-    border: 2px solid #673AB7;
+    border: 2px solid #CAB387;
     border-radius: 0px;
     border-width: 0 0 2px 0;
     margin-bottom: 5px;

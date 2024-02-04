@@ -27,7 +27,7 @@
                         <input v-model="employeeList[index].holidayCnt" type="number" @input="setModified(index)" />
                     </td>
                     <td>
-                        <img v-if="employeeList[index].isModified" class="modified-image" src="../assets/checkIcon.jpg" alt="Modified Image" />
+                        <img v-if="employeeList[index].isModified" class="modified-image" src="../assets/brownCheck2.jpg" alt="Modified Image" />
                     </td>
                 </tr>
                 </tbody>
@@ -161,7 +161,7 @@ export default {
 <style>
 #formStep2 .select-button {
     width: 85px;
-    background: #673AB7!Important;
+    background: #CAB387!Important;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -172,7 +172,7 @@ export default {
     border-radius: 5px;
 }
 #formStep2 .select-button:hover {
-    background-color: #311B92!Important;
+    background-color: #C09247!Important;
 }
 #formStep2 .select-button-previous {
     width: 85px;
@@ -204,7 +204,7 @@ export default {
 #formStep2 input,
 #formStep2 textarea {
     padding: 8px 15px 8px 15px;
-    border: 2px solid #673AB7;
+    border: 2px solid #CAB387;
     border-radius: 0px;
     border-width: 0 0 2px 0;
     margin-bottom: 5px;

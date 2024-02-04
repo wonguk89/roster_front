@@ -78,7 +78,7 @@ export default {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 70px;
-    border: 2px solid #673AB7;
+    border: 2px solid #CAB387;
     border-radius: 0px;
     border-width: 0 0 2px 0;
 }
@@ -86,7 +86,7 @@ export default {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 2px solid #673AB7;
+    border: 2px solid #C09247;
     border-radius: 5px;
     outline-width: 0
 }
