@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div :class="currentStep !== 5 ? 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-5 text-center p-0 mt-3 mb-2' : 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-11 text-center p-0 mt-3 mb-2'">
+            <div :class="currentStep !== 5 ? 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-5 text-center p-0 mt-3 mb-2' : 'col-11 col-sm-10 col-md-10 col-lg-1 col-xl-8 text-center p-0 mt-3 mb-2'">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                     <form id="msform">
                         <!-- progressbar -->

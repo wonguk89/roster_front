@@ -1,6 +1,7 @@
 <template>
     <div>
         <form id="formStep4">
+            <div class="table-container">
             <table
                 v-if="formattedDates"
                 style="width: 100%; margin-top: 30px; margin-bottom: 30px;"
@@ -33,7 +34,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            </div>
                 <p>{{formattedYearMonth}} 휴무일을 추가해주세요</p>
             <label>
 
@@ -353,5 +354,20 @@ export default {
     color: red;
     margin-top: 5px;
     font-size: 12px;
+}
+
+#formStep4 .table-container {
+    max-height: 260px; /* 원하는 높이로 설정 (px 또는 다른 단위로) */
+    overflow-y: auto; /* 세로 스크롤이 필요한 경우만 표시 */
+}
+#formStep4 .table-container::-webkit-scrollbar {
+    width: 5px;
+}
+#formStep4 .table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, #C09247);
+    border-radius: 10px;
+}
+#formStep4 .table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(transparent, #00c6ff, transparent);
 }
 </style>

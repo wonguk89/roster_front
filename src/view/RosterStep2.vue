@@ -2,6 +2,7 @@
     <div>
         <!-- Employee List Rendering -->
         <form id="formStep2">
+            <div class="table-container">
             <table>
                 <thead>
                 <tr>
@@ -32,7 +33,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            </div>
             <!-- Add Employee Button -->
             <input type="button" @click="addEmptyEmployeeRow" class="next select-button" value="직원추가" />
             <!-- Remove Selected Employees Button -->
@@ -220,5 +221,20 @@ export default {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+}
+
+#formStep2 .table-container {
+    max-height: 300px; /* 원하는 높이로 설정 (px 또는 다른 단위로) */
+    overflow-y: auto; /* 세로 스크롤이 필요한 경우만 표시 */
+}
+#formStep2 .table-container::-webkit-scrollbar {
+    width: 5px;
+}
+#formStep2 .table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, #C09247);
+    border-radius: 10px;
+}
+#formStep2 .table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(transparent, #00c6ff, transparent);
 }
 </style>

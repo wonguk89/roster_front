@@ -1,4 +1,5 @@
 <template>
+    <div class="table-container">
     <div class="calendar-container">
         <h6>{{ yearMonth.split('-')[0] }}</h6><h4>{{ parseInt(yearMonth.split('-')[1]) }}</h4>
         <div class="calendar">
@@ -23,6 +24,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -174,7 +176,7 @@ export default {
 
 .calendar {
     position: relative;
-    max-width: 1500px;
+    max-width: 1030px;
 }
 .weekdays {
     display: grid;
@@ -218,7 +220,7 @@ export default {
     box-sizing: border-box;
     font-family: montserrat;
     color: grey;
-    font-size: 15px;
+    font-size: 10px;
     letter-spacing: 1px;
     text-align: center;
 }
@@ -243,7 +245,7 @@ export default {
     box-sizing: border-box;
     font-family: montserrat;
     color: grey;
-    font-size: 15px;
+    font-size: 10px;
     letter-spacing: 1px;
     text-align: center;
 }
@@ -259,7 +261,7 @@ export default {
     box-sizing: border-box;
     font-family: montserrat;
     color: grey;
-    font-size: 15px;
+    font-size: 10px;
     letter-spacing: 1px;
     text-align: center;
 }
@@ -275,7 +277,7 @@ export default {
     box-sizing: border-box;
     font-family: montserrat;
     color: grey;
-    font-size: 15px;
+    font-size: 10px;
     letter-spacing: 1px;
     text-align: center;
 }
@@ -286,5 +288,19 @@ export default {
     margin-bottom: 1px;
 }
 
+.table-container {
+    max-height: 360px; /* 원하는 높이로 설정 (px 또는 다른 단위로) */
+    overflow-y: auto; /* 세로 스크롤이 필요한 경우만 표시 */
+}
+.table-container::-webkit-scrollbar {
+    width: 5px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, #C09247);
+    border-radius: 10px;
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(transparent, #00c6ff, transparent);
+}
 </style>
 

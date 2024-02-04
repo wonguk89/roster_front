@@ -2,6 +2,7 @@
     <div>
         <!-- Skill List Rendering -->
         <form id="formStep3">
+            <div class="table-container">
             <table style="width: 100%;">
                 <thead>
                 <tr>
@@ -33,6 +34,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
             <!-- Save All Modified Employees Button -->
             <input
                 v-if="hasAnyModifications"
@@ -225,5 +227,20 @@ export default {
 #formStep3 table{
     font-size: 15px;
     font-family: montserrat;
+}
+
+#formStep3 .table-container {
+    max-height: 300px; /* 원하는 높이로 설정 (px 또는 다른 단위로) */
+    overflow-y: auto; /* 세로 스크롤이 필요한 경우만 표시 */
+}
+#formStep3 .table-container::-webkit-scrollbar {
+    width: 5px;
+}
+#formStep3 .table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, #C09247);
+    border-radius: 10px;
+}
+#formStep3 .table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(transparent, #00c6ff, transparent);
 }
 </style>
