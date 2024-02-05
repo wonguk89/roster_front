@@ -31,7 +31,6 @@
 
 <script>
 import axios from 'axios';
-import router from "@/router";
 export default {
     data() {
         return {
@@ -188,13 +187,13 @@ export default {
 
                         await axios.post('http://localhost:8080/api/calendarSchedule/create', this.shchedulDataForSave);
                         console.log('스케쥴 정보를 저장하였습니다.');
-                        router.go(0);
+                        this.$router.push({ name: 'RosterStep7' });
                     }
                 } else {
                     // 데이터가 없을 때 새로운 데이터 생성
                     await axios.post('http://localhost:8080/api/calendarSchedule/create', this.shchedulDataForSave);
                     console.log('스케쥴 정보를 저장하였습니다.');
-                    router.go(0);
+                    this.$router.push({ name: 'RosterStep7' });
                 }
             } catch (error) {
                 console.error('스케쥴 정보 저장 중 오류 발생:', error.message);

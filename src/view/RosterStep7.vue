@@ -1,6 +1,6 @@
 <template>
     <div class="calendar-container">
-        <input type="button" @click="ButtonAction" class="back-action-button" value="뒤로" />
+        <input type="button" @click="ButtonAction" class="back-action-button" value="돌아가기" />
         <h6>{{ yearMonth.split('-')[0] }}</h6><h4>{{ parseInt(yearMonth.split('-')[1]) }}</h4>
         <div class="calendar">
             <div class="weekdays">
@@ -17,7 +17,14 @@
                     <div class="day-number">{{ day }}</div>
                     <div v-for="data in getDataForDay(day)" :key="data.sno" class="event">
                         <div class="input-container">
-                            <input v-model="data.name" class="input-box" placeholder="Employee ID" readonly>
+                            <input
+                                v-model="data.name"
+                                class="input-box"
+                                :class="{ 'highlighted': isNameHighlighted(data.name) }"
+                                placeholder="Employee ID"
+                                readonly
+                                @click="highlightNames(data.name)"
+                            />
                             <input v-model="data.skill" :class="{ 'open': data.skill === 'open', 'middle': data.skill === 'middle', 'close': data.skill === 'close' }" placeholder="Skill ID"  readonly>
                         </div>
                     </div>
@@ -49,6 +56,19 @@ export default {
         },
     },
     methods: {
+
+        highlightNames(name) {
+            this.shchedulData.forEach((entry) => {
+                if (entry.name === name) {
+                    entry.isHighlighted = !entry.isHighlighted;
+                }
+            });
+        },
+
+        isNameHighlighted(name) {
+            return this.shchedulData.some((entry) => entry.name === name && entry.isHighlighted);
+        },
+
         async generateRandomSchedule() {
             try {
                 const response = await axios.get(
@@ -99,6 +119,7 @@ export default {
                 const employee = this.nameData.find((emp) => emp.employeeID === entry.employeeID);
                 if (employee) {
                     entry.name = employee.name;
+                    entry.isHighlighted = false;
                 }
             });
         },
@@ -201,7 +222,7 @@ h4{
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 2px solid #C09247!important;
+    border: 2px solid #C09247;
     border-radius: 5px;
     outline-width: 0
 }
@@ -262,7 +283,7 @@ h4{
 }
 .back-action-button {
     width: 100px;
-    background: #C09247;
+    background: #CAB387;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -272,5 +293,13 @@ h4{
     margin: 10px 250px 10px -350px;
     float: right; /* 왼쪽으로 위치시키기 */
     border-radius: 5px;
+}
+.input-box.highlighted {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 2px solid #673AB7!important;
+    border-radius: 5px;
+    outline-width: 0
 }
 </style>
